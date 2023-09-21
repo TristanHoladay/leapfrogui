@@ -2,26 +2,42 @@
 	import '../app.css';
 	import 'material-symbols/';
 	import Navbar from '$lib/Navbar.svelte';
-	import { Box, Drawer, IconButton, ListItem, Theme } from '@uui';
+	import { Box, IconButton, Theme } from '@uui';
 	import NavDrawer from '$lib/NavDrawer.svelte';
 
 	let windowWidth: number;
-
-	$: isDrawerOpen = windowWidth && windowWidth > 900 ? true : false;
 </script>
 
-<svelte:window bind:innerWidth={windowWidth} />
 <Theme theme="dark" preferredTheme={false}>
-	<Navbar>
-		<IconButton
-			on:click={() => (isDrawerOpen = !isDrawerOpen)}
-			iconContent="menu"
-			iconClass="material-symbols-outlined"
-			ssx={{ $md: { $self: { display: 'none !important' } } }}
-		/>
-	</Navbar>
-	<NavDrawer {isDrawerOpen} />
-	<main>
-		<slot />
-	</main>
+	<Navbar />
+	<Box class="body-cont">
+		<NavDrawer />
+		<Box class="main-cont">
+			<main>
+				<slot />
+			</main>
+		</Box>
+	</Box>
 </Theme>
+
+<style global>
+	body {
+		overflow: hidden;
+	}
+
+	.body-cont {
+		display: flex;
+	}
+	.main-cont {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100vh;
+		align-items: center;
+		overflow-x: hidden;
+		overflow-y: scroll;
+	}
+	main {
+		padding-bottom: 32px;
+	}
+</style>

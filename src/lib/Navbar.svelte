@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
 	import { Paper, currentTheme, IconButton, Box } from '@uui';
+
 	function changeTheme() {
 		currentTheme.update((theme) => {
 			return theme === 'dark' ? 'light' : 'dark';
@@ -10,6 +11,7 @@
 <Paper elevation={2} square class="navbar">
 	<slot />
 	<Box ssx={{ $self: { width: '100%', display: 'flex', 'justify-content': 'end' } }}>
+		<IconButton iconContent="account_circle" iconClass="material-symbols-outlined" />
 		<IconButton
 			on:click={changeTheme}
 			iconContent="dark_mode"
