@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { Box, Button, Drawer, IconButton } from '@uui';
-	import Radio from './Radio.svelte';
+	import { Drawer, IconButton } from '@uui';
 	import Conversations from './Conversation/Conversations.svelte';
 
 	let windowWidth: number;
 
 	$: openDrawer = windowWidth && windowWidth > 900 ? true : false;
 	$: iconContent = openDrawer ? 'close' : 'menu';
+	$: logoDisplay = openDrawer ? 'block' : 'none';
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
@@ -27,6 +27,12 @@
 		{iconContent}
 		slot="header"
 		on:click={() => (openDrawer = !openDrawer)}
+	/>
+	<img
+		src="leapfrogai_logo.png"
+		alt="leapfrog logo"
+		width="20%"
+		style="display: {logoDisplay}; margin-left: 1rem;"
 	/>
 	<Conversations />
 </Drawer>
