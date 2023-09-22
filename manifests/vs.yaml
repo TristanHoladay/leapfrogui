@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: leapfrogui
+  namespace: leapfrogai
+spec:
+  gateways:
+    - istio-system/tenant
+  hosts:
+    - leapfrogui.bigbang.dev
+  http:
+    - route:
+        - destination:
+            host: leapfrogui
+            port:
+              number: 3000

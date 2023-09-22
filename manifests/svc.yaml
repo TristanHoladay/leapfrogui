@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: leapfrogui-svc
+  namespace: leapfrogai
+  annotations:
+    zarf.dev/connect-description: 'View the Leapfrog UI'
+  labels:
+    zarf.dev/connect-name: 'leapfrogui'
+spec:
+  selector:
+    app: leapfrogui
+  ports:
+    - name: http
+      port: 3000
+      protocol: TCP
+      targetPort: 3000

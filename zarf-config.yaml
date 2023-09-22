@@ -1,0 +1,7 @@
+package:
+  create:
+    set:
+    max_package_size: '1000000000'
+  deploy:
+    set:
+      domain: leapfrogui.bigbang.dev
