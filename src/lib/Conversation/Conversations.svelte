@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Radio from '$lib/Radio.svelte';
 	import { Box, Button, Dialog, DialogActions, DialogTitle, Typography } from '@uui';
-	import ConvoDialog from './ConvoDialog/ConvoDialog.svelte';
 
 	let convos = [{ name: 'Converstaion 1' }, { name: 'Conversation 2' }];
 

@@ -8,7 +8,7 @@
 	];
 </script>
 
-<Box>
+<Box ssx={{ $self: { height: 'calc(100vh - 300px)' } }}>
 	{#each messages as message}
 		<Paper
 			elevation={10}

@@ -14,7 +14,7 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			'@uui': 'node_modules/@defense-unicorns/unicorn-ui'
-		}
+		},
 	}
 };
 

@@ -2,6 +2,11 @@
 	import { Box } from '@uui';
 	import { current_component } from 'svelte/internal';
 
+	type $$Props = svelte.JSX.HTMLAttributes<HTMLImageElement> & {
+		content: string;
+		element?: string;
+	};
+
 	export let content = '';
 	export let element = 'img';
 </script>
