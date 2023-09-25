@@ -14,7 +14,7 @@
 			elevation={10}
 			ssx={{ $self: { display: 'flex', alignItems: 'center', padding: '.5rem', margin: '1rem' } }}
 		>
-			<Avatar element="i" class="material-symbols-outlined">image</Avatar>
+			<Avatar class="material-symbols-outlined" content="defense-unicorns.png" />
 			<Typography>{message.text}</Typography>
 		</Paper>
 	{/each}

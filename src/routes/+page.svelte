@@ -1,5 +1,8 @@
 <script lang="ts">
-	import Thread from '$lib/Thread/Thread.svelte';
+	import { Box, Typography } from '@defense-unicorns/unicorn-ui';
 </script>
 
-<Thread />
+<Box ssx={{ $self: { display: 'flex', alignItems: 'center', flexDirection: 'column' } }}>
+	<Typography variant="h1">Welcome to LeapfroAI Doug</Typography>
+	<Typography variant="h3">Start a new conversation</Typography>
+</Box>

@@ -1,11 +1,9 @@
 <script lang="ts">
 	import '../app.css';
 	import 'material-symbols/';
-	import Navbar from '$lib/Navbar.svelte';
-	import { Box, IconButton, Theme } from '@uui';
-	import NavDrawer from '$lib/NavDrawer.svelte';
-
-	let windowWidth: number;
+	import Navbar from '$lib/Nav/Navbar.svelte';
+	import { Box, Theme } from '@uui';
+	import NavDrawer from '$lib/Nav/NavDrawer.svelte';
 </script>
 
 <Theme theme="dark" preferredTheme={false}>

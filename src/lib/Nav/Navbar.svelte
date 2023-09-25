@@ -9,7 +9,7 @@
 		ListItemAdornment,
 		Typography
 	} from '@uui';
-	import Avatar from './Avatar.svelte';
+	import Avatar from '../Avatar.svelte';
 
 	let openMenu = false;
 	let anchorRef: HTMLAnchorElement;

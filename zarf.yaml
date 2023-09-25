@@ -2,13 +2,15 @@ kind: ZarfPackageConfig
 metadata:
   name: leapfrogui
   description: 'LeapfrogUI'
-  version: 0.0.1
+  version: '0.0.1'
   architecture: amd64
 
 components:
   - name: leapfrogUI
+    required: true
     manifests:
-      files:
-        - manifests/deployment.yaml
-        - manifiests/svc.yaml
-        - manifests/vs.yaml
+      - name: leapfrogUI
+        files:
+          - manifests/frogui.yaml
+    images:
+      - 77373/leapfrogui:0.0.1

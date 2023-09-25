@@ -11,6 +11,6 @@ spec:
   http:
     - route:
         - destination:
-            host: leapfrogui
+            host: leapfrogui-svc
             port:
               number: 3000

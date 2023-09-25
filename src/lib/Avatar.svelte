@@ -3,7 +3,7 @@
 	import { current_component } from 'svelte/internal';
 
 	type $$Props = svelte.JSX.HTMLAttributes<HTMLImageElement> & {
-		content: string;
+		content?: string;
 		element?: string;
 	};
 
