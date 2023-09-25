@@ -31,8 +31,9 @@
 		$self: {
 			display: 'flex',
 			flexDirection: 'column',
-			justifyContent: 'space-between',
-			gap: '1rem'
+			alignItems: 'center',
+			gap: '1rem',
+			width: '100%'
 		}
 	}}
 >

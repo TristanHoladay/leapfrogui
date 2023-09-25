@@ -22,15 +22,35 @@
 	$: messages = convos && convos[$page.params.convo].messages;
 </script>
 
-<Box ssx={{ $self: { height: 'calc(100vh - 300px)' } }}>
+<Box
+	ssx={{
+		$self: {
+			height: 'calc(100vh - 300px)',
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center'
+		}
+	}}
+>
 	{#if messages}
-		<Typography>working!!!!</Typography>
 		{#each messages as message}
 			<Paper
 				elevation={10}
-				ssx={{ $self: { display: 'flex', alignItems: 'center', padding: '.5rem', margin: '1rem' } }}
+				ssx={{
+					$self: {
+						display: 'flex',
+						alignItems: 'center',
+						padding: '.5rem',
+						margin: '1rem',
+						width: '60%'
+					}
+				}}
 			>
-				<Avatar class="material-symbols-outlined" content={`${getImage(message.role)}.png`} />
+				<Avatar
+					ssx={{ $self: { width: '40px' } }}
+					class="material-symbols-outlined"
+					content={`${getImage(message.role)}.png`}
+				/>
 				<Typography>{message.content}</Typography>
 			</Paper>
 		{/each}
