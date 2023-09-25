@@ -14,24 +14,19 @@
 	import { goto } from '$app/navigation';
 	import { conversations } from '$lib/stores/conversation.store';
 	import type { Conversation } from '$lib/Types/conversation';
-	import { onMount } from 'svelte';
 
+	let newConvoName = 'est';
 	let windowWidth: number;
-	let newConvoName: string;
-	let convos: Map<string, Conversation> = new Map<string, Conversation>();
 	let toggleDeleteDialog: () => void;
 	let toggleCreateDialog: () => void;
 
-	onMount(() => {
-		conversations.subscribe((val) => {
-			convos = val;
-		});
-	});
-
 	function createConvo() {
 		conversations.update((convos) => {
-			return convos.set(newConvoName, { user: 'doug', name: newConvoName, messages: [] });
+			convos[newConvoName] = { user: 'doug', name: newConvoName, messages: [] };
+
+			return { ...convos };
 		});
+
 		goto(`/conversation/${newConvoName}`);
 	}
 
@@ -76,11 +71,21 @@
 		<Button variant="outlined" class="convoBtns" on:click={toggleDeleteDialog}
 			>Delete Conversation</Button
 		>
-		<Box ssx={{ $self: { display: 'flex', flexDirection: 'column', alignItems: 'flex-start' } }}>
-			{#each Object.entries(convos) as [name, convo]}
-				<Radio name="convos" value={name} />
-			{/each}
-		</Box>
+	</Box>
+	<Box
+		ssx={{
+			$self: {
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'flex-start',
+				margin: '2rem'
+			}
+		}}
+	>
+		<Typography variant="h4">Conversations</Typography>
+		{#each Object.entries($conversations) as [name, _]}
+			<Radio name="convos" value={name} />
+		{/each}
 	</Box>
 </Drawer>
 

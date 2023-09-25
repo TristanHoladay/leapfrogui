@@ -1,15 +1,13 @@
-import type { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/chat';
+import type {
+	ChatCompletionCreateParamsNonStreaming,
+	ChatCompletionMessage
+} from 'openai/resources/chat';
 
 export type Function_Call = {
 	name: string;
 	arguments: string;
 };
-export type Message = {
-	role: 'system' | 'user' | 'assistant' | 'function';
-	content: string | null;
-	name?: string;
-	function_call?: Function_Call;
-};
+export type Message = ChatCompletionMessage;
 
 export type OpenAIFunction = {
 	name: string;

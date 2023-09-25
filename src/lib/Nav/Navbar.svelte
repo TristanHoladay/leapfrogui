@@ -45,7 +45,7 @@
 <Menu bind:open={openMenu} bind:anchorRef anchorOrigin="bottom-start">
 	<ListItem>
 		<ListItemAdornment slot="leading" class="material-symbols-outlined">
-			<Avatar content="defense-unicorns.png" />
+			<Avatar content="user.png" />
 		</ListItemAdornment>
 		<Typography>doug@defenseunicorns.com</Typography>
 	</ListItem>
