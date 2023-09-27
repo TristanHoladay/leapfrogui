@@ -6,10 +6,8 @@
 	import type { Message } from '$lib/Types/completion';
 	import { conversations } from '$lib/stores/conversation.store';
 	import type { ActionData } from './$types';
-	import { afterUpdate } from 'svelte';
 
 	let inputVal: string;
-	export let form: ActionData;
 
 	function updateMessages(message: Message) {
 		conversations.update((convos) => {
@@ -19,11 +17,9 @@
 		});
 	}
 
-	afterUpdate(() => {
-		if (form && form.message) {
-			updateMessages(form.message);
-		}
-	});
+	function updateFromRes(result: any) {
+		if (result.data) updateMessages(result.data.message);
+	}
 </script>
 
 <Box
@@ -39,15 +35,24 @@
 >
 	<Typography variant="h2">Converstaion Thread: {$page.params.convo}</Typography>
 	<Messages />
-	<form method="POST" action="?/createCompletion" use:enhance>
+	<form
+		method="POST"
+		action="?/createCompletion"
+		use:enhance={() => {
+			return async ({ update, result }) => {
+				await update();
+				updateFromRes(result);
+			};
+		}}
+	>
 		<TextField variant="outlined" label="Ask Something" name="input" bind:value={inputVal}>
-			<TextFieldIcon variant="trailing" slot="trailingIcon" class="txtIcon"
-				><IconButton
+			<TextFieldIcon variant="trailing" slot="trailingIcon" class="txtIcon">
+				<IconButton
 					iconClass="material-symbols-outlined"
 					iconContent="send"
 					on:click={() => updateMessages({ role: 'user', content: inputVal })}
-				/></TextFieldIcon
-			>
+				/>
+			</TextFieldIcon>
 		</TextField>
 	</form>
 </Box>

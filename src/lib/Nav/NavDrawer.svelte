@@ -13,9 +13,8 @@
 	import Radio from '$lib/Radio.svelte';
 	import { goto } from '$app/navigation';
 	import { conversations } from '$lib/stores/conversation.store';
-	import type { Conversation } from '$lib/Types/conversation';
 
-	let newConvoName = 'est';
+	let newConvoName = '';
 	let windowWidth: number;
 	let toggleDeleteDialog: () => void;
 	let toggleCreateDialog: () => void;
@@ -75,12 +74,12 @@
 	<Box
 		ssx={{
 			$self: {
-				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'flex-start',
 				margin: '2rem'
 			}
 		}}
+		style="display: {convoDisplay}"
 	>
 		<Typography variant="h4">Conversations</Typography>
 		{#each Object.entries($conversations) as [name, _]}
