@@ -2,6 +2,7 @@
 	import {
 		Box,
 		Button,
+		Checkbox,
 		Dialog,
 		DialogActions,
 		DialogTitle,
@@ -13,11 +14,13 @@
 	import Radio from '$lib/Radio.svelte';
 	import { goto } from '$app/navigation';
 	import { conversations } from '$lib/stores/conversation.store';
+	import { page } from '$app/stores';
 
 	let newConvoName = '';
 	let windowWidth: number;
 	let toggleDeleteDialog: () => void;
 	let toggleCreateDialog: () => void;
+	let formRef: HTMLFormElement;
 
 	function createConvo() {
 		conversations.update((convos) => {
@@ -27,6 +30,20 @@
 		});
 
 		goto(`/conversation/${newConvoName}`);
+	}
+
+	async function removeFromStore(v: FormDataEntryValue) {
+		if ($page.params.convo === v) {
+			await goto('/');
+		}
+		conversations.update((convos) => {
+			delete convos[v as string];
+			return { ...convos };
+		});
+	}
+
+	function handleDelete() {
+		formRef && new FormData(formRef).forEach((v) => removeFromStore(v));
 	}
 
 	$: openDrawer = windowWidth && windowWidth > 900 ? true : false;
@@ -83,7 +100,7 @@
 	>
 		<Typography variant="h4">Conversations</Typography>
 		{#each Object.entries($conversations) as [name, _]}
-			<Radio name="convos" value={name} />
+			<Radio name="convos" value={name} checked={$page.params.convo === name} />
 		{/each}
 	</Box>
 </Drawer>
@@ -102,12 +119,17 @@
 </Dialog>
 
 <Dialog bind:toggleDialog={toggleDeleteDialog}>
-	<DialogTitle slot="title">Delete Conversation: Conversation Name</DialogTitle>
-	<Typography slot="content">Are you sure?</Typography>
-	<DialogActions slot="actions">
-		<Button on:click={toggleDeleteDialog}>NO</Button>
-		<Button on:click={toggleDeleteDialog}>YES</Button>
-	</DialogActions>
+	<DialogTitle slot="title">Delete Conversations</DialogTitle>
+	<form bind:this={formRef} slot="content" on:submit|preventDefault={handleDelete}>
+		<Box ssx={{ $self: { display: 'flex', flexDirection: 'column' } }}>
+			{#each Object.entries($conversations) as [name, _]}
+				<Checkbox value={name} label={name} {name} id={`id_${name}`} />
+			{/each}
+		</Box>
+		<DialogActions slot="actions">
+			<Button type="submit" on:click={toggleDeleteDialog}>Delete</Button>
+		</DialogActions>
+	</form>
 </Dialog>
 
 <style>

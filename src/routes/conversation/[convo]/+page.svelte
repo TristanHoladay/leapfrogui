@@ -5,7 +5,6 @@
 	import { enhance } from '$app/forms';
 	import type { Message } from '$lib/Types/completion';
 	import { conversations } from '$lib/stores/conversation.store';
-	import type { ActionData } from './$types';
 
 	let inputVal: string;
 

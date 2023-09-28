@@ -29,7 +29,7 @@
 		justify-content: center;
 		object-fit: cover;
 		margin-left: 0;
-		margin-right: 32px;
+		margin-right: 1rem;
 		width: 40px;
 		height: 40px;
 		border-radius: 50%;

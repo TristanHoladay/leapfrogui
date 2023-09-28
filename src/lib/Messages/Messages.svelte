@@ -26,9 +26,11 @@
 	ssx={{
 		$self: {
 			height: 'calc(100vh - 300px)',
+			width: '70%',
 			display: 'flex',
 			flexDirection: 'column',
-			alignItems: 'center'
+			alignItems: 'start',
+			overflowY: 'scroll'
 		}
 	}}
 >
@@ -42,7 +44,7 @@
 						alignItems: 'center',
 						padding: '.5rem',
 						margin: '1rem',
-						width: '60%'
+						width: 'fit-content'
 					}
 				}}
 			>
