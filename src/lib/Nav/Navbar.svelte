@@ -1,19 +1,14 @@
 <script lang="ts">
-	import {
-		Paper,
-		currentTheme,
-		IconButton,
-		Box,
-		Menu,
-		ListItem,
-		ListItemAdornment,
-		Typography
-	} from '@uui';
+	import { Paper, Menu, ListItem, ListItemAdornment, Typography } from '@uui';
 	import Avatar from '../Avatar.svelte';
 	import { themeVal } from '$lib/stores/theme.store';
+	import Asleep from 'carbon-icons-svelte/lib/Asleep.svelte';
+	import UserAvatar from 'carbon-icons-svelte/lib/UserAvatar.svelte';
+	import { Button } from 'carbon-components-svelte';
 
 	let openMenu = false;
 	let anchorRef: HTMLAnchorElement;
+	let windowWidth: number;
 
 	function changeTheme() {
 		themeVal.update((val) => {
@@ -24,27 +19,43 @@
 			}
 		});
 	}
+
+	$: openDrawer = windowWidth && windowWidth > 900 ? true : false;
+	$: logoDisplay = openDrawer ? 'block' : 'none';
 </script>
 
+<svelte:window bind:innerWidth={windowWidth} />
+
 <Paper elevation={2} square class="navbar">
-	<slot />
-	<Box ssx={{ $self: { width: '100%', display: 'flex', 'justify-content': 'end' } }}>
-		<IconButton
-			iconContent="account_circle"
-			iconClass="material-symbols-outlined"
+	<img
+		src="leapfrogai_logo.png"
+		alt="leapfrog logo"
+		width="50px"
+		height="50px"
+		style="display: {logoDisplay}; margin-left: 1rem;"
+	/>
+	<div class="btn-container">
+		<Button
+			icon={UserAvatar}
+			kind="ghost"
 			on:click={() => (openMenu = !openMenu)}
 			bind:ref={anchorRef}
+			style="border-radius: 50%;"
 		/>
-		<IconButton
+		<!-- <Button kind="ghost" as let:props> -->
+		<!-- <i on:click={changeTheme}><Asleep class="iconS" size={20} /></i> -->
+		<!-- </Button> -->
+		<Button
+			icon={Asleep}
+			kind="ghost"
 			on:click={changeTheme}
-			iconContent="dark_mode"
-			toggledIconContent="light_mode"
-			toggleable
-			toggled={$currentTheme === 'dark'}
-			iconClass="material-symbols-outlined"
-			toggledIconClass="material-symbols-outlined"
+			style="border-radius: 50%;"
+			tooltipAlignment="start"
 		/>
-	</Box>
+		<!-- <Button kind="ghost" style="border-radius: 100%;" on:click={changeTheme}
+			><Asleep size={32} /></Button
+		> -->
+	</div>
 </Paper>
 
 <Menu bind:open={openMenu} bind:anchorRef anchorOrigin="bottom-start">
@@ -65,4 +76,12 @@
 		height: 3.5rem;
 		width: 100%;
 	}
+	.btn-container {
+		width: 100%;
+		display: flex;
+		justify-content: end;
+	}
+	/* .iconS {
+		pointer-events: inherit;
+	} */
 </style>

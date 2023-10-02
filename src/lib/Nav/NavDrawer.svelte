@@ -1,12 +1,17 @@
 <script lang="ts">
 	import { Box, Drawer, Typography } from '@uui';
-	import Radio from '$lib/Radio.svelte';
 	import { goto } from '$app/navigation';
 	import { conversations } from '$lib/stores/conversation.store';
 	import { page } from '$app/stores';
 	import CloseLarge from 'carbon-icons-svelte/lib/CloseLarge.svelte';
 	import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
-	import { Button, Modal, TextInput } from 'carbon-components-svelte';
+	import {
+		Button,
+		Modal,
+		RadioButton,
+		RadioButtonGroup,
+		TextInput
+	} from 'carbon-components-svelte';
 	import { Checkbox } from 'carbon-components-svelte';
 
 	let newConvoName = '';
@@ -54,7 +59,7 @@
 	$: openDrawer = windowWidth && windowWidth > 900 ? true : false;
 	$: iconContent = openDrawer ? CloseLarge : Menu;
 	$: iconDesc = openDrawer ? 'close' : 'open';
-	$: logoDisplay = openDrawer ? 'block' : 'none';
+
 	$: convoDisplay = openDrawer ? 'flex' : 'none';
 </script>
 
@@ -77,12 +82,6 @@
 		icon={iconContent}
 		iconDescription={iconDesc}
 		on:click={() => (openDrawer = !openDrawer)}
-	/>
-	<img
-		src="leapfrogai_logo.png"
-		alt="leapfrog logo"
-		width="20%"
-		style="display: {logoDisplay}; margin-left: 1rem;"
 	/>
 	<Box
 		style="display: {convoDisplay}"
@@ -107,7 +106,14 @@
 	>
 		<Typography variant="h4">Conversations</Typography>
 		{#each Object.entries($conversations) as [name, _]}
-			<Radio name="convos" value={name} checked={$page.params.convo === name} />
+			<RadioButtonGroup orientation="vertical">
+				<RadioButton
+					name="convos"
+					value={name}
+					labelText={name}
+					checked={$page.params.convo === name}
+				/>
+			</RadioButtonGroup>
 		{/each}
 	</Box>
 </Drawer>
