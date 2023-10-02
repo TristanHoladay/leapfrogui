@@ -1,26 +1,19 @@
 <script lang="ts">
-	import {
-		Box,
-		Button,
-		Checkbox,
-		Dialog,
-		DialogActions,
-		DialogTitle,
-		Drawer,
-		IconButton,
-		TextField,
-		Typography
-	} from '@uui';
+	import { Box, Drawer, Typography } from '@uui';
 	import Radio from '$lib/Radio.svelte';
 	import { goto } from '$app/navigation';
 	import { conversations } from '$lib/stores/conversation.store';
 	import { page } from '$app/stores';
+	import CloseLarge from 'carbon-icons-svelte/lib/CloseLarge.svelte';
+	import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
+	import { Button, Modal, TextInput } from 'carbon-components-svelte';
+	import { Checkbox } from 'carbon-components-svelte';
 
 	let newConvoName = '';
 	let windowWidth: number;
-	let toggleDeleteDialog: () => void;
-	let toggleCreateDialog: () => void;
-	let formRef: HTMLFormElement;
+	let openDeleteModal = false;
+	let openCreateModal = false;
+	let deleteList: string[] = [];
 
 	function createConvo() {
 		conversations.update((convos) => {
@@ -30,6 +23,7 @@
 		});
 
 		goto(`/conversation/${newConvoName}`);
+		newConvoName = '';
 	}
 
 	async function removeFromStore(v: FormDataEntryValue) {
@@ -42,12 +36,24 @@
 		});
 	}
 
+	function controlDeleteList(e: CustomEvent<boolean>, name: string) {
+		if (e.detail === true) {
+			deleteList.push(name);
+		} else {
+			deleteList = deleteList.filter((c) => c !== name);
+		}
+	}
+
 	function handleDelete() {
-		formRef && new FormData(formRef).forEach((v) => removeFromStore(v));
+		deleteList.forEach((v) => {
+			removeFromStore(v);
+		});
+		deleteList = [];
 	}
 
 	$: openDrawer = windowWidth && windowWidth > 900 ? true : false;
-	$: iconContent = openDrawer ? 'close' : 'menu';
+	$: iconContent = openDrawer ? CloseLarge : Menu;
+	$: iconDesc = openDrawer ? 'close' : 'open';
 	$: logoDisplay = openDrawer ? 'block' : 'none';
 	$: convoDisplay = openDrawer ? 'flex' : 'none';
 </script>
@@ -65,10 +71,11 @@
 	}}
 	rail
 >
-	<IconButton
-		iconClass="material-symbols-outlined"
-		{iconContent}
+	<Button
 		slot="header"
+		kind="ghost"
+		icon={iconContent}
+		iconDescription={iconDesc}
 		on:click={() => (openDrawer = !openDrawer)}
 	/>
 	<img
@@ -81,12 +88,12 @@
 		style="display: {convoDisplay}"
 		ssx={{ $self: { flexDirection: 'column', gap: '1rem', alignItems: 'center' } }}
 	>
-		<Button variant="outlined" class="convoBtns" on:click={toggleCreateDialog}
-			>New Conversation</Button
-		>
-		<Button variant="outlined" class="convoBtns" on:click={toggleDeleteDialog}
-			>Delete Conversation</Button
-		>
+		<Button kind="tertiary" class="convoBtns" on:click={() => (openCreateModal = true)}>
+			New Conversation
+		</Button>
+		<Button kind="tertiary" class="convoBtns" on:click={() => (openDeleteModal = true)}>
+			Delete Conversation
+		</Button>
 	</Box>
 	<Box
 		ssx={{
@@ -105,35 +112,38 @@
 	</Box>
 </Drawer>
 
-<Dialog bind:toggleDialog={toggleCreateDialog}>
-	<DialogTitle slot="title">Create New Conversation</DialogTitle>
-	<TextField slot="content" label="name" variant="outlined" bind:value={newConvoName} />
-	<DialogActions slot="actions">
-		<Button
-			on:click={() => {
-				createConvo();
-				toggleCreateDialog();
-			}}>Create</Button
-		>
-	</DialogActions>
-</Dialog>
+<Modal
+	bind:open={openDeleteModal}
+	modalHeading="Delete Conversations"
+	primaryButtonText="Confirm"
+	on:click:button--secondary={() => (openDeleteModal = false)}
+	on:submit={() => {
+		openDeleteModal = false;
+		handleDelete();
+	}}
+>
+	{#each Object.entries($conversations) as [name, _]}
+		<Checkbox value={name} labelText={name} on:check={(e) => controlDeleteList(e, name)} />
+	{/each}
+</Modal>
 
-<Dialog bind:toggleDialog={toggleDeleteDialog}>
-	<DialogTitle slot="title">Delete Conversations</DialogTitle>
-	<form bind:this={formRef} slot="content" on:submit|preventDefault={handleDelete}>
-		<Box ssx={{ $self: { display: 'flex', flexDirection: 'column' } }}>
-			{#each Object.entries($conversations) as [name, _]}
-				<Checkbox value={name} label={name} {name} id={`id_${name}`} />
-			{/each}
-		</Box>
-		<DialogActions slot="actions">
-			<Button type="submit" on:click={toggleDeleteDialog}>Delete</Button>
-		</DialogActions>
-	</form>
-</Dialog>
+<Modal
+	size="sm"
+	bind:open={openCreateModal}
+	modalHeading="Delete Conversations"
+	primaryButtonText="Confirm"
+	on:click:button--secondary={() => (openCreateModal = false)}
+	on:click:button--primary={() => {
+		openCreateModal = false;
+		createConvo();
+	}}
+	selectorPrimaryFocus="#convo-name"
+>
+	<TextInput id="convo-name" labelText="name" bind:value={newConvoName} />
+</Modal>
 
 <style>
 	:global(.convoBtns) {
-		width: 50%;
+		width: 45%;
 	}
 </style>

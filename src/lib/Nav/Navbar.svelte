@@ -10,13 +10,18 @@
 		Typography
 	} from '@uui';
 	import Avatar from '../Avatar.svelte';
+	import { themeVal } from '$lib/stores/theme.store';
 
 	let openMenu = false;
 	let anchorRef: HTMLAnchorElement;
 
 	function changeTheme() {
-		currentTheme.update((theme) => {
-			return theme === 'dark' ? 'light' : 'dark';
+		themeVal.update((val) => {
+			if (val === 'white') {
+				return 'g90';
+			} else {
+				return 'white';
+			}
 		});
 	}
 </script>

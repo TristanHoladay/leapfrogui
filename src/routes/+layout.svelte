@@ -1,22 +1,33 @@
 <script lang="ts">
 	import '../app.css';
+	import 'carbon-components-svelte/css/all.css';
 	import 'material-symbols/';
 	import Navbar from '$lib/Nav/Navbar.svelte';
-	import { Box, Theme } from '@uui';
+	import { Box } from '@uui';
 	import NavDrawer from '$lib/Nav/NavDrawer.svelte';
+	import { Theme } from 'carbon-components-svelte';
+	import { themeVal } from '$lib/stores/theme.store';
+	import { onMount } from 'svelte';
+
+	let pageDocument: Document;
+	onMount(() => {
+		pageDocument = document;
+	});
 </script>
 
-<Theme theme="dark" preferredTheme={false}>
-	<Navbar />
-	<Box class="body-cont">
-		<NavDrawer />
-		<Box class="main-cont">
-			<main>
-				<slot />
-			</main>
+{#if pageDocument}
+	<Theme bind:theme={$themeVal} persist persistKey="--carbon_theme">
+		<Navbar />
+		<Box class="body-cont">
+			<NavDrawer />
+			<Box class="main-cont">
+				<main>
+					<slot />
+				</main>
+			</Box>
 		</Box>
-	</Box>
-</Theme>
+	</Theme>
+{/if}
 
 <style global>
 	body {
