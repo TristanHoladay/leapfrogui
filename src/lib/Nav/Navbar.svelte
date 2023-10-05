@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { Menu, ListItem, ListItemAdornment, Typography } from '@uui';
-	import Avatar from '../Avatar.svelte';
 	import { themeVal } from '$lib/stores/theme.store';
 	import Asleep from 'carbon-icons-svelte/lib/Asleep.svelte';
 	import UserAvatar from 'carbon-icons-svelte/lib/UserAvatar.svelte';
-	import { Button, Tile } from 'carbon-components-svelte';
+	import { Button, Popover, Tile } from 'carbon-components-svelte';
 
 	let openMenu = false;
 	let anchorRef: HTMLAnchorElement;
@@ -35,16 +33,24 @@
 		style="display: {logoDisplay}; margin: 1rem;"
 	/>
 	<div class="btn-container">
-		<Button
-			expressive
-			icon={UserAvatar}
-			kind="ghost"
-			on:click={() => (openMenu = !openMenu)}
-			bind:ref={anchorRef}
-			iconDescription="User Info"
-			tooltipPosition="left"
-			style="border-radius: 50%;"
-		/>
+		<div style="position: relative;">
+			<Popover bind:open={openMenu} align="bottom-right" closeOnOutsideClick>
+				<Tile>doug@defenseunicorns.com</Tile>
+			</Popover>
+			<Button
+				bind:ref={anchorRef}
+				expressive
+				icon={UserAvatar}
+				kind="ghost"
+				on:click={(e) => {
+					e.stopPropagation();
+					openMenu = !openMenu;
+					anchorRef.blur();
+				}}
+				iconDescription="User Info"
+				style="border-radius: 50%; position: relative;"
+			/>
+		</div>
 		<!-- <Button kind="ghost" as let:props> -->
 		<!-- <i on:click={changeTheme}><Asleep class="iconS" size={20} /></i> -->
 		<!-- </Button> -->
@@ -55,7 +61,6 @@
 			on:click={changeTheme}
 			style="border-radius: 50%;"
 			iconDescription="Theme Mode"
-			tooltipPosition="left"
 		/>
 		<!-- <Button kind="ghost" style="border-radius: 100%;" on:click={changeTheme}
 			><Asleep size={32} /></Button
@@ -63,14 +68,9 @@
 	</div>
 </Tile>
 
-<Menu bind:open={openMenu} bind:anchorRef anchorOrigin="bottom-start">
-	<ListItem>
-		<ListItemAdornment slot="leading" class="material-symbols-outlined">
-			<Avatar content="user.png" />
-		</ListItemAdornment>
-		<Typography>doug@defenseunicorns.com</Typography>
-	</ListItem>
-</Menu>
+<!-- <ContextMenu target={[anchorRef]} on:click={() => console.log('click')}>
+	<ContextMenuOption labelText="doug@defenseunicorns.com" />
+</ContextMenu> -->
 
 <style>
 	:global(.navbar) {
