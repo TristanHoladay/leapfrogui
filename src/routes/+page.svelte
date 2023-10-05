@@ -1,8 +1,16 @@
 <script lang="ts">
-	import { Box, Typography } from '@defense-unicorns/unicorn-ui';
+	import { Typography } from '@defense-unicorns/unicorn-ui';
 </script>
 
-<Box ssx={{ $self: { display: 'flex', alignItems: 'center', flexDirection: 'column' } }}>
-	<Typography variant="h1">Welcome to LeapfroAI Doug</Typography>
-	<Typography variant="h3">Start a new conversation</Typography>
-</Box>
+<div class="home">
+	<h1>Welcome to LeapfrogAI</h1>
+	<h3>Start a new conversation</h3>
+</div>
+
+<style>
+	.home {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+</style>

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { Paper, Menu, ListItem, ListItemAdornment, Typography } from '@uui';
+	import { Menu, ListItem, ListItemAdornment, Typography } from '@uui';
 	import Avatar from '../Avatar.svelte';
 	import { themeVal } from '$lib/stores/theme.store';
 	import Asleep from 'carbon-icons-svelte/lib/Asleep.svelte';
 	import UserAvatar from 'carbon-icons-svelte/lib/UserAvatar.svelte';
-	import { Button } from 'carbon-components-svelte';
+	import { Button, Tile } from 'carbon-components-svelte';
 
 	let openMenu = false;
 	let anchorRef: HTMLAnchorElement;
@@ -26,37 +26,42 @@
 
 <svelte:window bind:innerWidth={windowWidth} />
 
-<Paper elevation={2} square class="navbar">
+<Tile class="navbar">
 	<img
 		src="leapfrogai_logo.png"
 		alt="leapfrog logo"
 		width="50px"
 		height="50px"
-		style="display: {logoDisplay}; margin-left: 1rem;"
+		style="display: {logoDisplay}; margin: 1rem;"
 	/>
 	<div class="btn-container">
 		<Button
+			expressive
 			icon={UserAvatar}
 			kind="ghost"
 			on:click={() => (openMenu = !openMenu)}
 			bind:ref={anchorRef}
+			iconDescription="User Info"
+			tooltipPosition="left"
 			style="border-radius: 50%;"
 		/>
 		<!-- <Button kind="ghost" as let:props> -->
 		<!-- <i on:click={changeTheme}><Asleep class="iconS" size={20} /></i> -->
 		<!-- </Button> -->
 		<Button
+			class="no-tooltip-icon"
 			icon={Asleep}
 			kind="ghost"
 			on:click={changeTheme}
 			style="border-radius: 50%;"
-			tooltipAlignment="start"
+			iconDescription="Theme Mode"
+			tooltipPosition="left"
 		/>
 		<!-- <Button kind="ghost" style="border-radius: 100%;" on:click={changeTheme}
 			><Asleep size={32} /></Button
 		> -->
 	</div>
-</Paper>
+</Tile>
 
 <Menu bind:open={openMenu} bind:anchorRef anchorOrigin="bottom-start">
 	<ListItem>
@@ -84,4 +89,20 @@
 	/* .iconS {
 		pointer-events: inherit;
 	} */
+
+	:global(
+			.no-tooltip-icon.bx--btn.bx--btn--icon-only.bx--tooltip__trigger.bx--tooltip--visible
+				.bx--assistive-text,
+			.no-tooltip-icon.bx--btn.bx--btn--icon-only.bx--tooltip__trigger.bx--tooltip--visible
+				+ .bx--assistive-text,
+			.no-tooltip-icon.bx--btn.bx--btn--icon-only.bx--tooltip__trigger.bx--tooltip--visible.bx--tooltip--a11y::before,
+			.no-tooltip-icon.bx--btn.bx--btn--icon-only.bx--tooltip__trigger:hover .bx--assistive-text,
+			.no-tooltip-icon.bx--btn.bx--btn--icon-only.bx--tooltip__trigger:hover + .bx--assistive-text,
+			.no-tooltip-icon.bx--btn.bx--btn--icon-only.bx--tooltip__trigger:hover.bx--tooltip--a11y::before,
+			.no-tooltip-icon.bx--btn.bx--btn--icon-only.bx--tooltip__trigger:focus .bx--assistive-text,
+			.no-tooltip-icon.bx--btn.bx--btn--icon-only.bx--tooltip__trigger:focus + .bx--assistive-text,
+			.no-tooltip-icon.bx--btn.bx--btn--icon-only.bx--tooltip__trigger:focus.bx--tooltip--a11y::before
+		) {
+		display: none;
+	}
 </style>

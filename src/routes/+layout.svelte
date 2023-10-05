@@ -3,7 +3,6 @@
 	import 'carbon-components-svelte/css/all.css';
 	import 'material-symbols/';
 	import Navbar from '$lib/Nav/Navbar.svelte';
-	import { Box } from '@uui';
 	import NavDrawer from '$lib/Nav/NavDrawer.svelte';
 	import { Theme } from 'carbon-components-svelte';
 	import { themeVal } from '$lib/stores/theme.store';
@@ -16,21 +15,21 @@
 </script>
 
 {#if pageDocument}
-	<Theme bind:theme={$themeVal} persist persistKey="--carbon_theme">
+	<Theme bind:theme={$themeVal} persist persistKey="carbon_theme">
 		<Navbar />
-		<Box class="body-cont">
+		<div class="body-cont">
 			<NavDrawer />
-			<Box class="main-cont">
+			<div class="main-cont">
 				<main>
 					<slot />
 				</main>
-			</Box>
-		</Box>
+			</div>
+		</div>
 	</Theme>
 {/if}
 
-<style global>
-	body {
+<style>
+	:global(body) {
 		overflow: hidden;
 	}
 
