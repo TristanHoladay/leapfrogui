@@ -1,26 +1,12 @@
 <script lang="ts">
-	import { Box, type BoxProps } from '@uui';
-	import { current_component } from 'svelte/internal';
-
-	type $$Props = BoxProps<HTMLImageElement> &
-		svelte.JSX.HTMLAttributes<HTMLImageElement> & {
-			content?: string;
-			element?: string;
-		};
+	type $$Props = svelte.JSX.HTMLAttributes<HTMLImageElement> & {
+		content?: string;
+	};
 
 	export let content = '';
-	export let element = 'img';
 </script>
 
-<Box
-	{element}
-	eventComponent={current_component}
-	src={content}
-	{...$$restProps}
-	class="avatar {$$restProps.class || ''}"
->
-	<slot />
-</Box>
+<img src={content} {...$$restProps} class="avatar {$$restProps.class || ''}" alt={content} />
 
 <style global>
 	.avatar {

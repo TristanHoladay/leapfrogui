@@ -3,7 +3,7 @@
 	import Avatar from '$lib/Avatar.svelte';
 	import type { Conversation } from '$lib/Types/conversation';
 	import { conversations } from '$lib/stores/conversation.store';
-	import { Box, Paper, Typography } from '@uui';
+	import { Paper } from '@uui';
 
 	function getImage(role: string) {
 		if (role === 'assistant') {
@@ -22,18 +22,7 @@
 	$: messages = convos && convos[$page.params.convo].messages;
 </script>
 
-<Box
-	ssx={{
-		$self: {
-			height: 'calc(100vh - 300px)',
-			width: '70%',
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'start',
-			overflowY: 'scroll'
-		}
-	}}
->
+<div class="messages">
 	{#if messages}
 		{#each messages as message}
 			<Paper
@@ -48,13 +37,20 @@
 					}
 				}}
 			>
-				<Avatar
-					ssx={{ $self: { width: '40px' } }}
-					class="material-symbols-outlined"
-					content={`${getImage(message.role)}.png`}
-				/>
-				<Typography>{message.content}</Typography>
+				<Avatar content={`${getImage(message.role)}.png`} />
+				<body1>{message.content}</body1>
 			</Paper>
 		{/each}
 	{/if}
-</Box>
+</div>
+
+<style>
+	.messages {
+		height: calc(100vh - 300px);
+		width: 70%;
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+		overflow-y: scroll;
+	}
+</style>

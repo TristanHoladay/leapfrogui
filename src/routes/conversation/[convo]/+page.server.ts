@@ -4,15 +4,14 @@ import type { ChatCompletionCreateParamsNonStreaming } from 'openai/resources/ch
 
 export const actions = {
 	createCompletion: async (req: any) => {
-		const formData = Object.fromEntries(await req.request.formData());
-
-		const completion: ChatCompletionCreateParamsNonStreaming = {
-			model: 'gpt-3.5-turbo',
-			messages: [{ role: 'user', content: formData.input, name: 'doug' }]
-		};
-		const data = await openai.chat.completions.create(completion);
-		return {
-			message: data.choices[0].message
-		};
+		// const formData = Object.fromEntries(await req.request.formData());
+		// const completion: ChatCompletionCreateParamsNonStreaming = {
+		// 	model: 'gpt-3.5-turbo',
+		// 	messages: [{ role: 'user', content: formData.input, name: 'doug' }]
+		// };
+		// const data = await openai.chat.completions.create(completion);
+		// return {
+		// 	message: data.choices[0].message
+		// };
 	}
 };
