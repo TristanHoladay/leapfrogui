@@ -2,11 +2,11 @@
 	import { themeVal } from '$lib/stores/theme.store';
 	import Asleep from 'carbon-icons-svelte/lib/Asleep.svelte';
 	import UserAvatar from 'carbon-icons-svelte/lib/UserAvatar.svelte';
-	import { Button, Popover, Tile } from 'carbon-components-svelte';
+	import { Button, Header, HeaderUtilities, Popover, Tile } from 'carbon-components-svelte';
 
 	let openMenu = false;
-	let anchorRef: HTMLAnchorElement;
-	let windowWidth: number;
+	let userIconRef: HTMLAnchorElement;
+	let isSideNavOpen = true;
 
 	function changeTheme() {
 		themeVal.update((val) => {
@@ -17,79 +17,41 @@
 			}
 		});
 	}
-
-	$: openDrawer = windowWidth && windowWidth > 900 ? true : false;
-	$: logoDisplay = openDrawer ? 'block' : 'none';
 </script>
 
-<svelte:window bind:innerWidth={windowWidth} />
-
-<Tile class="navbar">
-	<img
-		src="leapfrogai_logo.png"
-		alt="leapfrog logo"
-		width="50px"
-		height="50px"
-		style="display: {logoDisplay}; margin: 1rem;"
-	/>
-	<div class="btn-container">
+<Header bind:isSideNavOpen platformName="LeapfrogAI">
+	<img slot="company" src="leapfrogai_logo.png" alt="leapfrog logo" width="40px" height="40px" />
+	<HeaderUtilities>
 		<div style="position: relative;">
 			<Popover bind:open={openMenu} align="bottom-right" closeOnOutsideClick>
 				<Tile>doug@defenseunicorns.com</Tile>
 			</Popover>
 			<Button
-				bind:ref={anchorRef}
-				expressive
+				bind:ref={userIconRef}
 				icon={UserAvatar}
-				kind="ghost"
 				on:click={(e) => {
 					e.stopPropagation();
 					openMenu = !openMenu;
-					anchorRef.blur();
+					userIconRef.blur();
 				}}
 				iconDescription="User Info"
-				style="border-radius: 50%; position: relative;"
+				style="border-radius: 50%; background-color: transparent;"
 			/>
 		</div>
-		<!-- <Button kind="ghost" as let:props> -->
-		<!-- <i on:click={changeTheme}><Asleep class="iconS" size={20} /></i> -->
-		<!-- </Button> -->
 		<Button
 			class="no-tooltip-icon"
 			icon={Asleep}
-			kind="ghost"
-			on:click={changeTheme}
-			style="border-radius: 50%;"
+			on:click={(e) => {
+				e.target && e.target.blur(); // buggy -- doesn't work if clicking icon directly just button around icon
+				changeTheme();
+			}}
+			style="border-radius: 50%; background-color: transparent;"
 			iconDescription="Theme Mode"
 		/>
-		<!-- <Button kind="ghost" style="border-radius: 100%;" on:click={changeTheme}
-			><Asleep size={32} /></Button
-		> -->
-	</div>
-</Tile>
-
-<!-- <ContextMenu target={[anchorRef]} on:click={() => console.log('click')}>
-	<ContextMenuOption labelText="doug@defenseunicorns.com" />
-</ContextMenu> -->
+	</HeaderUtilities>
+</Header>
 
 <style>
-	:global(.navbar) {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 0.5rem;
-		height: 3.5rem;
-		width: 100%;
-	}
-	.btn-container {
-		width: 100%;
-		display: flex;
-		justify-content: end;
-	}
-	/* .iconS {
-		pointer-events: inherit;
-	} */
-
 	:global(
 			.no-tooltip-icon.bx--btn.bx--btn--icon-only.bx--tooltip__trigger.bx--tooltip--visible
 				.bx--assistive-text,
