@@ -19,7 +19,7 @@
 	}
 </script>
 
-<Header bind:isSideNavOpen platformName="LeapfrogAI">
+<Header bind:isSideNavOpen platformName="LeapfrogAI" expandedByDefault>
 	<img slot="company" src="leapfrogai_logo.png" alt="leapfrog logo" width="40px" height="40px" />
 	<HeaderUtilities>
 		<div style="position: relative;">
@@ -35,6 +35,7 @@
 					userIconRef.blur();
 				}}
 				iconDescription="User Info"
+				tooltipPosition="left"
 				style="border-radius: 50%; background-color: transparent;"
 			/>
 		</div>
@@ -46,7 +47,6 @@
 				changeTheme();
 			}}
 			style="border-radius: 50%; background-color: transparent;"
-			iconDescription="Theme Mode"
 		/>
 	</HeaderUtilities>
 </Header>
