@@ -6,6 +6,8 @@
 	import {
 		Button,
 		Modal,
+		OverflowMenu,
+		OverflowMenuItem,
 		RadioButton,
 		RadioButtonGroup,
 		SideNav,
@@ -14,12 +16,16 @@
 		TextInput
 	} from 'carbon-components-svelte';
 	import { Checkbox } from 'carbon-components-svelte';
+	import { Asleep } from 'carbon-icons-svelte';
 
 	let newConvoName = '';
 	let windowWidth: number;
 	let openDeleteModal = false;
 	let openCreateModal = false;
 	let deleteList: string[] = [];
+	let isCheckedOrClickedForDeletion = (e: CustomEvent<boolean> | MouseEvent) => {
+		return (e.detail && e.detail === true) || e.detail === 1;
+	};
 
 	function createConvo() {
 		conversations.update((convos) => {
@@ -42,8 +48,8 @@
 		});
 	}
 
-	function controlDeleteList(e: CustomEvent<boolean>, name: string) {
-		if (e.detail === true) {
+	function controlDeleteList(e: CustomEvent<boolean> | MouseEvent, name: string) {
+		if (isCheckedOrClickedForDeletion(e)) {
 			deleteList.push(name);
 		} else {
 			deleteList = deleteList.filter((c) => c !== name);
@@ -52,6 +58,7 @@
 
 	function handleDelete() {
 		deleteList.forEach((v) => {
+			console.log('deleting :', v);
 			removeFromStore(v);
 		});
 		deleteList = [];
@@ -80,12 +87,24 @@
 			<h4>Conversations</h4>
 			{#each Object.entries($conversations) as [name, _]}
 				<RadioButtonGroup orientation="vertical">
-					<RadioButton
-						name="convos"
-						value={name}
-						labelText={name}
-						checked={$page.params.convo === name}
-					/>
+					<div style="display: flex; align-items: center; gap: 2rem;">
+						<RadioButton
+							name="convos"
+							value={name}
+							labelText={name}
+							checked={$page.params.convo === name}
+						/>
+						<OverflowMenu>
+							<OverflowMenuItem
+								text="Delete"
+								on:click={(e) => {
+									console.log('delete triggered');
+									controlDeleteList(e, name);
+									handleDelete();
+								}}
+							/>
+						</OverflowMenu>
+					</div>
 				</RadioButtonGroup>
 			{/each}
 		</div>
@@ -124,6 +143,6 @@
 
 <style>
 	:global(.convoBtns) {
-		width: 45%;
+		width: 90%;
 	}
 </style>
