@@ -13,10 +13,9 @@
 		SideNav,
 		SideNavDivider,
 		SideNavItems,
-		TextInput
+		TextInput,
+		Checkbox
 	} from 'carbon-components-svelte';
-	import { Checkbox } from 'carbon-components-svelte';
-	import { Asleep } from 'carbon-icons-svelte';
 
 	let newConvoName = '';
 	let windowWidth: number;
@@ -72,7 +71,7 @@
 
 <SideNav rail={windowWidth < 900} expansionBreakpoint={900} bind:isOpen={openDrawer}>
 	<SideNavItems>
-		<div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+		<div style="display: {convoDisplay}; flex-direction: column; gap: 1rem; align-items: center;">
 			<Button kind="secondary" class="convoBtns" on:click={() => (openCreateModal = true)}
 				>New Conversation</Button
 			>

@@ -3,7 +3,7 @@
 	import Avatar from '$lib/Avatar.svelte';
 	import type { Conversation } from '$lib/Types/conversation';
 	import { conversations } from '$lib/stores/conversation.store';
-	import { Paper } from '@uui';
+	import { Tile } from 'carbon-components-svelte';
 
 	function getImage(role: string) {
 		if (role === 'assistant') {
@@ -25,21 +25,10 @@
 <div class="messages">
 	{#if messages}
 		{#each messages as message}
-			<Paper
-				elevation={10}
-				ssx={{
-					$self: {
-						display: 'flex',
-						alignItems: 'center',
-						padding: '.5rem',
-						margin: '1rem',
-						width: 'fit-content'
-					}
-				}}
-			>
+			<Tile class="message">
 				<Avatar content={`${getImage(message.role)}.png`} />
 				<body1>{message.content}</body1>
-			</Paper>
+			</Tile>
 		{/each}
 	{/if}
 </div>
@@ -52,5 +41,14 @@
 		flex-direction: column;
 		align-items: start;
 		overflow-y: scroll;
+	}
+
+	:global(.message) {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem;
+		margin: 1rem;
+		width: fit-content;
 	}
 </style>
