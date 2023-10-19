@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Box } from '@uui';
 	import Messages from '$lib/Messages/Messages.svelte';
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
@@ -23,17 +22,7 @@
 	}
 </script>
 
-<Box
-	ssx={{
-		$self: {
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			gap: '1rem',
-			width: '100%'
-		}
-	}}
->
+<div class="convo-cont">
 	<h2>Converstaion Thread: {$page.params.convo}</h2>
 	<Messages />
 	<form
@@ -69,11 +58,19 @@
 			<Send size={20} class=".txtIcon" />
 		</div> -->
 	</form>
-</Box>
+</div>
 
 <style>
 	:global(.txtIcon) {
 		pointer-events: inherit !important;
+	}
+
+	.convo-cont {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		width: 100%;
 	}
 
 	/* .no-tooltip-icon .bx--btn--selected {
