@@ -10,8 +10,14 @@ export const actions = {
 		// 	messages: [{ role: 'user', content: formData.input, name: 'doug' }]
 		// };
 		// const data = await openai.chat.completions.create(completion);
-		// return {
-		// 	message: data.choices[0].message
-		// };
+		
+		const data = { 
+			choices: [
+				{message: {role: 'assistant', content: 'You exceeded your current quota, please check your plan and billing details.'}}
+			]
+		}
+		return {
+			message: data.choices[0].message
+		};
 	}
 };

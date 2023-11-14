@@ -2,7 +2,7 @@
 	import { themeVal } from '$lib/stores/theme.store';
 	import Asleep from 'carbon-icons-svelte/lib/Asleep.svelte';
 	import UserAvatar from 'carbon-icons-svelte/lib/UserAvatar.svelte';
-	import { Button, Header, HeaderUtilities, Popover, Tile } from 'carbon-components-svelte';
+	import { Button, Header, HeaderUtilities, Popover, Theme, Tile } from 'carbon-components-svelte';
 
 	let openMenu = false;
 	let userIconRef: HTMLAnchorElement;
@@ -27,6 +27,7 @@
 				<Tile>doug@defenseunicorns.com</Tile>
 			</Popover>
 			<Button
+				data-testid="user-info-icon"
 				bind:ref={userIconRef}
 				icon={UserAvatar}
 				on:click={(e) => {
@@ -40,6 +41,7 @@
 			/>
 		</div>
 		<Button
+			data-testid="theme-btn"
 			class="no-tooltip-icon"
 			icon={Asleep}
 			on:click={(e) => {
